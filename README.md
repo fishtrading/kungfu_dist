@@ -10,7 +10,7 @@
 * 进入monit界面后按Ctrl+c退出，完成初始配置工作。
 
 # 配置交易柜台
-* 访问kungfu软件安装包发布区 https://github.com/fishtrading/kungfu_dist/releases找到最新交易柜台软件下载链接，比如：https://github.com/fishtrading/kungfu_dist/releases/download/v2.3/kfext_exbian-v1.0.1.tgz
+* 访问kungfu软件安装包发布区 https://github.com/fishtrading/kungfu_dist/releases  找到最新交易柜台软件下载链接，比如：https://github.com/fishtrading/kungfu_dist/releases/download/v2.3/kfext_exbian-v1.0.1.tgz
 * 登录kungfu服务器。
 ** 进入目录 /opt/kungfu/kfc/kungfu_extensions
 ** 下载软件包 wget https://.../kfext_exbian-v1.0.1.tgz
