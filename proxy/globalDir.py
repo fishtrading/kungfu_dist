@@ -18,9 +18,9 @@ import sys
 #----------------------------------------------------------------------------------------------
 
 #kfc执行目录
-kfchome = "/home/centos/kungfu2/app/build/app/linux-unpacked/resources/kfc"
+kfchome = "/opt/kungfu/kfc"
 #cli目录
-kfccli = "/home/centos/kungfu2/app/build/app/linux-unpacked/resources/kungfu-cli"
+kfccli = "/opt/kungfu/cli"
 #kfc数据存储目录
 kfcdata = "/home/centos/.config/kungfu/home/runtime"
 #策略存储目录
