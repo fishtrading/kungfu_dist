@@ -4,6 +4,7 @@
   * 下载kungfu安装包，wget https://.../kungfu-2.3.8.tar.gz
   * 解压缩到/opt/kungfu/ 目录
   * 编辑/etc/profile，文件末尾添加一行。“export LC_ALL=en_US.utf8”
+  * yum install libicu
 * 执行以下命令
   * /opt/kungfu/kfc/kfc migrate
   * /opt/kungfu/cli/kungfu-cli monit
