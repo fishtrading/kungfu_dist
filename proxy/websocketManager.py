@@ -112,7 +112,7 @@ class WebsocketManager:
         
 class websocketClient(WebsocketManager):
     _ENDPOINT = 'ws://18.166.202.8:9999'   
-    # _ENDPOINT = 'ws://127.0.0.1:9999'
+    #_ENDPOINT = 'ws://192.168.0.13:9999'
     def __init__(self) -> None:
         super().__init__()
         self.strategyProcessing = strategyProcessing()
@@ -138,19 +138,9 @@ class websocketClient(WebsocketManager):
         return self._ENDPOINT
     
     def NameFormat(self, strategyName):
-        pos1 = -1
-        pos2 = strategyName.rfind("/")
-        pos3 = strategyName.rfind("\\")
-        if pos2 != -1 or pos3 != -1:
-            if pos2 > pos3:
-                pos1 = pos2
-            else:
-                pos1 = pos3
-
         pos = strategyName.find("@")
-        if pos == -1:
-            pos = len(strategyName)
-        return strategyName[pos1 + 1:pos]
+        print(pos)
+        return strategyName[0:pos]
 
     def _on_message(self, ws, raw_message: str) -> None:
         print("on_message{}", raw_message)
@@ -165,8 +155,7 @@ class websocketClient(WebsocketManager):
             username = message["accountuser"]
             if(len(content) == size):
                 dict = json.loads(dict)
-                # self.strategyProcessing.write(fileName, content, dict, username)
-                self.strategyProcessing.writeIncludeSv(fileName, content, dict, username)                
+                self.strategyProcessing.write(fileName, content, dict, username)
                 self.send("{\"op\":\"write\",\"name\":\"" + message["name"] + "\",\"result\":\"success\"}")    
             else:
                 self.send("{\"op\":\"write\",\"name\":\"" + message["name"] + "\",\"result\":\"faild\"}")
@@ -174,21 +163,19 @@ class websocketClient(WebsocketManager):
         elif message_type == 'start':                                                        #策略执行开始
             strategyName = message["strategyName"]
             strategyName = self.NameFormat(strategyName)
-            # self.strategyProcessing.startStrategy(strategyName)
-            self.strategyProcessing.startStrategyIncludeSv(strategyName)
-            # time.sleep(23)
-            time.sleep(60)
+            self.strategyProcessing.startStrategy(strategyName)
+            time.sleep(23)
             proc = {}
             if self.strategyProcessing.processManage.watchProcess(processStr=proc):
                 self.send("{\"op\":\"start\",\"name:\":\"" + message["strategyName"] + "\",\"result\":\"success\"}")
             else:
+                print("----------------------")
                 self.send("{\"op\":\"start\",\"name\":\"" + message["strategyName"] + "\",\'pro\":" + str(proc) + ",\"result\":\"faild\"}")
             print("proc__", proc)
         elif message_type == "stop":                                                          #策略停止
             strategyName = message["strategyName"]
             strategyName = self.NameFormat(strategyName)
-            # self.strategyProcessing.stopStrategy(strategyName)
-            self.strategyProcessing.stopStrategyIncludeSv(strategyName)
+            self.strategyProcessing.stopStrategy(strategyName)
             self.send("{\"op\":\"stop\",\"name:\":\"" + message["strategyName"] + "\",\"result\":\"success\"}")  
         elif message_type == "log":                                                           #回传日志
             strategyName = message["strategyName"]
@@ -204,17 +191,8 @@ class websocketClient(WebsocketManager):
             if "td" in message:
                 td_value = json.loads(message["td"])
                 accountManage.insertConfig(category=1, group=group, value=td_value)
-        elif message_type == "startmonit":
-            strategyName = message["strategyName"]
-            strategyName = self.NameFormat(strategyName)
-            webhook = message["webhook"]
-            exchange = message["exchange"]
-            dirstrage = self.strategyProcessing.writewarning(strategyName, exchange, webhook)
-            print("------------------------------startmonit")
-            self.strategyProcessing.startmonit(dirstrage)
-        elif message_type == "stopmonit":
-            self.strategyProcessing.stopmonit()
 
+        
 
 def ProcessStart():
     client = websocketClient()
@@ -223,4 +201,3 @@ def ProcessStart():
         time.sleep(20)
 
 ProcessStart()
-
