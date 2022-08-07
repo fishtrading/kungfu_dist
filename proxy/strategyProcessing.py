@@ -2,7 +2,7 @@ import os
 import subprocess
 import json
 from ProcessManage import ProcessManage
-from globalDir import*
+from globalDir import *
 
 tdModel = "nohup $KFC_HOME/kfc -l info td -s __EXCHANGE__ -a __ACCOUNT__ > $KFC_LOG/td__EXCHANGE__.log 2>&1 &\n"
 mdModel = "nohup $KFC_HOME/kfc md -s __EXCHANGE__  > $KFC_LOG/md__EXCHANGE__.log 2>&1 &\n"
